@@ -166,6 +166,102 @@
 // productTitle ??= "Назва товару";
 // console.log("productTitle", productTitle);
 
-let productTitle = null;
-productTitle ||= "Назва товару";
-console.log("productTitle", productTitle);
+// let productTitle = null;
+// productTitle ||= "Назва товару";
+// console.log("productTitle", productTitle);
+/* побітові оператори "&"обидва, "|"мінимум один, "^"лише один, “~”протилежне   *********************/
+// console.log(a, a.toString(2));
+// console.log(b, b.toString(2));
+
+const canRead = false;
+const canWrite = true;
+const canDelete = false;
+const canEdit = true;
+
+// let userRole = 0b0101;
+// let adminRole = 0b1111;
+
+// let isAdmin = userRole & adminRole;
+
+// console.log(isAdmin);
+
+// let userRole = 0b0101;
+
+// let adminRole = 0b1111;
+
+// let user2Role = 0b0110;
+
+// let friendRole = userRole | user2Role;
+// let friendRole = userRole ^ user2Role;
+// console.log(friendRole === 0b0011);
+// let friendRole = userRole ^ user2Role;
+// adminRole = ~userRole;
+
+// console.log(adminRole);
+
+/* побітові оператори "<<" зміщення вліво, ">>" зміщення вправо,  ">>>" зміщення вправо, без урахування отрицат чисел*****************/
+// let freeTea = 0b00001;
+// freeTea = freeTea << 1;
+
+// console.log(freeTea.toString(2));
+// freeTea = freeTea << 1;
+
+// console.log(freeTea.toString(2));
+// freeTea = freeTea << 1;
+
+// console.log(freeTea.toString(2));
+// freeTea = freeTea << 1;
+
+// console.log(freeTea.toString(2));
+
+// console.log(freeTea === 0b10000);
+
+// let freeCava = 0b1000;
+// freeTea = freeCava >> 1;
+
+// console.log(freeTea.toString(2));
+// freeTea = freeTea >> 1;
+
+// console.log(freeTea.toString(2));
+// freeTea = freeTea >> 1;
+
+// console.log(freeTea.toString(2));
+
+// console.log(freeTea === 0b0001);
+
+/* побітові оператори присвоення ""об, "|"мінимум один, "^"лише , ********************/
+// let freeTea = 0b10000;
+// freeTea >>= 1;
+
+// console.log(freeTea.toString(2));
+// freeTea >>= 1;
+
+// console.log(freeTea.toString(2));
+// freeTea >>= 1;
+
+// console.log(freeTea.toString(2));
+// freeTea >>= 1;
+
+// console.log(freeTea.toString(2));
+
+// console.log(freeTea === 0b00001);
+
+const a = 0b0001;
+const b = 0b0010;
+const c = 0b0100;
+
+let settings = 0b0000;
+
+settings |= a;
+//0001
+settings |= b;
+//0011
+
+// console.log((settings & c) === 0b0000);
+//0011
+//0100
+//==
+//0000
+
+isButtonOn = !((settings & a) === 0b0000);
+console.log(isButtonOn);
