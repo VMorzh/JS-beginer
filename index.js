@@ -1,158 +1,201 @@
-/* урок 8 Цикли!!!!!!!!!!!!***********/
+// /* урок 9 Функції!!!!!!!!!!!!***********/
 
-// let x = 1;
-// while (x < 5) {
-//   console.log(x);
-//   x++;
+// // function calcSpace(amount, unit = "px") {
+// //   return `${amount * 4}${unit}`;
+// // }
+
+// // console.log(calcSpace(5));
+// /* урок 9  *******
+// Рекурсія викликає сама себе в середине функції!!!!!!!!!!!***********/
+
+// function playTrackById(trackId) {
+//   //search file and launch - запустити пісню
+// }
+// // function stopTrackById(trackId) {
+// //   //отримати файл- поставити пісню на паузу
+// // }
+// function play(trackName, trackId) {
+//   console.log(`Запускаємо ${trackName}`);
+//   playTrackById(trackId);
 // }
 
-// let count = 0;
-// while (true) {
-//   let a = 1;
-//   console.log("Hello world!", a);
+// function end(oldTrackName, newTrackName) {
+//   console.log(`Завершили грати ${oldTrackName}`);
+//   console.log(`Наступний трек ${newTrackName}`);
 // }
-// let isFast = true;
 
-// while (count < 5) {
-//   console.log("Hello world!", count);
-//   if (isFast && count >= 3) {
-//     count = 5;
+// function pausePlay(currentTrackName) {
+//   console.log(`Трек ${currentTrackName} не на паузі`);
+//   reloadDataTrack();
+//   play();
+// }
+// function reloadDataTrack(amount) {
+//   if (amount <= 0) {
+//     console.log("Дані оновлені");
 //   } else {
-//     count++;
+//     console.log("Повторне оновлення");
+//     // пенвий ко для оновлення данніх. Recurcia)
+//     reloadDataTrack(amount - 1);
 //   }
 // }
+// reloadDataTrack(5);
+// /* урок 9  *******
+// Замикання  Closures !!!!!!!!!!!***********/
+// function pauseStopByTrack(trackName, trackId) {
+//   let originTrackname = trackName;
+//   let originTrackId = trackId;
 
-// const PRODUCT_AMOUNT = 6;
-// const DISCOUNT_ADD = 2;
-
-// let discountAmount = 0;
-// let productCount = 0;
-
-// while (
-//   productCount < PRODUCT_AMOUNT &&
-//   DISCOUNT_ADD <= 10 &&
-//   discountAmount <= 10
-// ) {
-//   productCount++;
-
-//   if (productCount <= 0) {
-//     break;
-//   }
-//   if (productCount <= 3) {
-//     discountAmount += 1;
-//   } else if (productCount > 3 && productCount <= 5) {
-//     discountAmount += 1.5;
-//   } else if (productCount > 5 && productCount <= 8) {
-//     discountAmount += 2;
-//   } else if (productCount > 8) {
-//     discountAmount += 2.5;
-//   }
-//   if (DISCOUNT_ADD) {
-//     discountAmount += DISCOUNT_ADD;
-//   }
-
-//   console.log(productCount, discountAmount);
+//   return function pauseStop() {
+//     stopTrackById(originTrackId);
+//     console.log(`Трек ${originTrackname} на паузі`);
+//   };
 // }
-// if (discountAmount > 10) {
-//   discountAmount = 10;
+
+// /*сюда повертаемо функцию pauseStopByTrack и вона попадає в змінну!!!!!!!!!!!!*/
+// const pauseStop123 = function pauseStop(originTrackId, originTrackname) {
+//   stopTrackById(originTrackId);
+//   console.log(`Трек ${originTrackname} на паузі`);
+// };
+// pauseStop123();
+// const pauseStop456 = pauseStopByTrack("IT Console log");
+// pauseStop456();
+
+// /* урок 9  *******
+// Функціональний вираз ... який повертає функц callback !!!!
+// */
+
+// // const runCommand = function (command, errorFn) {
+// //   const result = command();
+// //   if (!result) {
+// //     return errorFn();
+// //   }
+// // };
+// // runCommand(
+// //   function () {
+// //     console.log("Start");
+// //     return 1 - 1;
+// //   },
+// //   function () {
+// //     console.log("Error");
+// //   }
+// // );
+
+// /*Стрілкова функція (Arrow function !!!!!!!!!!**********/
+// () => {
+//   //тут код
+// };
+// // return () => {
+// //   stopTrackById(originTrackId);
+// //   console.log(`Трек ${originTrackname} на паузі`);
+// // };
+
+// // const runCommand = function (command, errorFn) {
+// //   const result = command();
+// //   if (!result) {
+// //     return errorFn();
+// //   }
+// // };
+// // runCommand(
+// //   () => {
+// //     console.log("Start");
+// //     return 1 - 1;
+// //   },
+// //   () => console.log("Error")
+// // );
+// /* стрілкова більшь сучасніша! її варто використовувати в якості аргументів, коли вкладуємо функцію в змінну, або коли повертаємо функцію */
+// // const testFunc = () => {
+// //   let test = 10;
+// //   return test;
+// // };
+// // console.log(testFunc());
+// function stopTrackById(trackId) {
+//   //   //отримати файл- поставити пісню на паузу
+//   console.log(`отримати - постви пісні з TrackID`);
 // }
-// console.log(`Знижка:`, discountAmount, "%");
-// console.log(`Знижка для товарів:`, productCount);
-// console.log(`товарів без Знижка :`, PRODUCT_AMOUNT - productCount);
 
-// let container = 5;
-// let storage = 20;
+/*Каррірована функція (curried function !!!!!!!!!!**********/
+// function pauseStopByTrack(trackName, trackId) {
+//   let isPause = null;
 
-// let car = 3;
-// do {
-//   car++;
-
-//   storage -= container;
-
-//   console.log(car, storage);
-// } while (car < 3);
-
-// if (car > 3) {
-//   console.log("need more car");
-// }
-// let start = 40;
-// let goal = 100;
-
-// let step = 0;
-// let set = 8;
-// let rest = 10;
-
-// do {
-//   if (step === 0) {
-//     console.log("Start train");
-//   }
-//   start++;
-//   step++;
-//   if (step === goal / 2) {
-//     console.log("complete 50%");
-//   }
-//   if (step === goal || start === goal) {
-//     console.log("Finish train");
-//     break;
-//   }
-//   if (step % rest === 0) {
-//     console.log(`take a rest`);
-//     continue;
-//   }
-
-//   if (step % set === 0) {
-//     console.log(`done ${step / set} cet(s)`);
-//   }
-
-//   console.log(" in progress", step);
-// } while (step < goal && start < goal);
-
-/*ключове слово для (for) звичайного циклу,циклу з двома
-лічильниками, вкладені . зовнішні  цикли !!!!
-та використання Міток *******/
-// let q = 0;
-// main: for (let i = 0, j = 5; i <= j; i++) {
-//   console.log("test", i, j);
-//   if (i === 3) {
-//     j++;
-//   }
-//   for (;;) {
-//     console.log("Q", q);
-//     q++;
-//     if (q >= i) {
-//       break main;
+//   return () => {
+//     if (isPause == true) {
+//       return;
 //     }
-//   }
+
+//     stopTrackById(trackId);
+//     console.log(`Трек ${trackName} на паузі`);
+//     isPause = true;
+//   };
 // }
 
-let age = 25;
-let hasExp = true;
-let hasEdu = false;
-let JS = true;
+// const pauseStop45 = pauseStopByTrack("IT Console log", 10);
+// pauseStop45();
+// pauseStop45();
+// pauseStop45();
 
-form: {
-  if (age >= 18) {
-    if (hasExp) {
-      console.log("Confirmed");
+// /*Memoization /          !!!!!!!!!!**********/
+// const memoCalcSpace = (oldAmount = null, oldUnit = null, oldResult = null) => {
+//   return (amount, unit = "px") => {
+//     if (oldAmount === amount && unit === oldUnit) {
+//       console.log("memo");
+
+//       return oldResult;
+//     }
+
+//     oldResult = `${amount * 4}${unit}`;
+//     oldAmount = amount;
+//     oldUnit = unit;
+
+//     return oldResult;
+//   };
+// };
+// const calcSpace = memoCalcSpace();
+// console.log(calcSpace(4));
+// console.log(calcSpace(4));
+
+/*Композиція функцій  !!!!!!!!!!**********/
+
+const restartTrack = (trackName, trackId) => {};
+
+const memoCalcSpace = (oldAmount = null, oldUnit = null, oldResult = null) => {
+  return (amount, unit = "px") => {
+    if (oldAmount === amount && unit === oldUnit) {
+      console.log("memo");
+
+      return oldResult;
     }
 
-    if (hasEdu) {
-      console.log("Confirmed");
-    }
-    if (JS) {
-      console.log("Confirmed");
-    }
+    oldResult = `${amount * 4}${unit}`;
+    oldAmount = amount;
+    oldUnit = unit;
+
+    return oldResult;
+  };
+};
+const calcSpace = memoCalcSpace();
+console.log(calcSpace(4));
+console.log(calcSpace(4));
+
+const getSpaceFromDesign = (componentName) => {
+  switch (componentName) {
+    case "button":
+      return 4;
+    case "card":
+      return 3;
+    default:
+      return 2;
   }
+};
+const isMobile = true;
 
-  if (age < 18) {
-    console.log("Age not confirm");
-  }
-}
+const amount = getSpaceFromDesign("button");
+const amountMobile = isMobile ? amount / 2 : amount;
+const amountInpx = calcSpace(amountMobile);
 
-// if (!hasEdu) {
-//     console.log("Edu not confirm");
-//   }
-// }
-// if (!hasExp) {
-//   console.log("Exp not confirm");
-// }
+const calcSpaceFromDesign = (componentName) => {
+  const result = getSpaceFromDesign(componentName);
+
+  return calcSpace(isMobile ? result / 2 : result);
+};
+console.log("///////");
+console.log(calcSpaceFromDesign("button"));
