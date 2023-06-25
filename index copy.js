@@ -953,3 +953,560 @@ console.log(c.toUpperCase());
 console.log(c.toLowerCase());
 const d = "   Hello World   ";
 console.log(c.trim(), 1);
+
+// /*  Урок 14 МАссиви*/
+
+const a = 10;
+const b = 20;
+const c = 30;
+
+const getOne = () => 1;
+let list = [
+  function Name() {},
+  100,
+  "Text",
+  null,
+  undefined,
+  1 + 2,
+  5 < 6,
+  getOne(),
+  a,
+  b,
+  c,
+];
+
+console.log(list);
+
+const testArr = [];
+
+testArr[0] = "Start";
+testArr[1] = 2;
+testArr[2] = 20;
+testArr[testArr.length] = 30;
+testArr[testArr.length] = 40;
+
+console.log(testArr[testArr.length - 1]);
+
+/*testArr["test"] = "Test123"; так не використвуємо бо губиться суть масиву*/
+/* console.log(testArr.test);*/
+
+delete testArr[0];
+
+console.log(testArr);
+
+const big = [[[1], [2, 3, 4, 5], [3]], [[2]], [[3]]];
+
+console.log(big[0][1][2]);
+
+const locationі = [
+  [100, 200],
+  [105, 205],
+  [110, 190],
+];
+
+for (const point of locationі) {
+  for (const coord of point) {
+    console.log(coord);
+  }
+}
+
+for (const pointIndex in location) {
+  console.log(location[pointIndex]);
+
+  for (const coordIndex in location[pointIndex]) {
+    console.log(location[pointIndex][coordIndex]);
+  }
+}
+
+/* in рідко використвуєтся,of зручніше*** нижче перетворимо!!! на звичайний цикл for*/
+
+for (let i = 0; i < location.length; i++) {
+  console.log(location[i]);
+
+  for (let j = 0; j < location[i].length; j++) {
+    console.log(location[i][j]);
+  }
+}
+
+const location = [
+  [100, 200],
+  [105, 205],
+  [110, 190],
+  //   [120, 180],
+];
+
+const [loc1, ...rest] = location;
+
+const [[p1, p2], loc3, loc4 = "Test"] = rest;
+
+console.log(p1, p2);
+
+let l1 = [2, 3, 4];
+let l2 = [1, 2, 3];
+
+const l3 = [100, ...(l1 || [])];
+
+console.log(l1.toString(), l3.toString());
+console.log(l1, l3);
+delete l1[0];
+
+console.log(l1, l2);
+
+[l1, l2] = [l2, l1];
+
+console.log(l1, l2);
+
+function printFullname([name, surname, lastname, ...arg]) {
+  //   console.log(arg);
+  //   return arg.toString();
+
+  return `${name} ${surname} ${lastname} ${
+    arg.length ? `(${arg.toString()})` : ""
+  }`;
+}
+console.log(printFullname(["Ivan", "Ivanenko", "Ivanov", "Admin", "18"]));
+
+function sumAllNum(...nums) {
+  let sum = 0;
+
+  for (const n of nums) {
+    sum += n;
+  }
+  return [sum, nums.length];
+}
+// console.log(sumAllNum(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16));
+
+const [sum, numLength] = sumAllNum(
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16
+);
+console.log(sum, numLength);
+/*  Урок 15 ОБ"ЄКТИ ********/
+
+const key = "fgjhf56245qwerty123";
+
+const a = {
+  amount: 100,
+  [key]: "HelloWorld",
+
+  [key]: {
+    [key]: "Ivan",
+    age: 35,
+  },
+};
+console.log(a);
+
+console.log(a[key]);
+
+console.log(a.amount);
+
+const b = {};
+console.log(b);
+
+delete a.amount;
+console.log(a);
+
+/* !!!!!!!!!!!!!!!!робимо ітерацію об'єкта*******************/
+const person = {
+  name: "Ivan",
+  age: 25,
+  occupation: "Developer software",
+
+  address: {
+    city: "Kiev",
+    street: "Shevchenko str.",
+    housNr: 10,
+  },
+};
+
+for (const key in person) {
+  const item = person[key];
+
+  if (typeof person[key] === "object") {
+    for (const key2 in item) console.log(item[key2]);
+  } else {
+    console.log(item);
+  }
+}
+
+const a = { test: 1 };
+const b = a;
+console.log(a === b);
+
+/* !!!!!!!!!!!!!!!!Деструктуризацію об'єкта*******************/
+
+/*тут мі можемо в основний обьєкт персон, покласти інший обьект **/
+const role = {
+  value: "admin",
+  status: 3,
+};
+
+const person = {
+  name: "Ivan",
+  age: 25,
+  occupation: "Developer software",
+
+  info: role,
+
+  address: {
+    city: "Kiev",
+    street: "Shevchenko str.",
+    housNr: 10,
+  },
+  getAddress: function () {
+    return this.address;
+  },
+};
+const person2 = { ...person };
+
+console.log(person.getAddress());
+
+console.log("name" in person);
+/* за допомогою оператора (in) "в" перевіряємо в консоли буде вертатись,  true або false, також можно за допомогою !! **/
+
+const {
+  name,
+  age,
+  address: { city, street, zipcode = "02001" },
+  ...rest
+} = person;
+
+console.log(age, name, city, street, zipcode);
+console.log(rest);
+
+function getAddress({
+  address: { city, street = "Не вказано", housNr, zipcode = 1000 } = {
+    city: "Не вказано",
+    street: "Не вказано",
+    housNr: 10,
+    zipcode: 1000,
+  },
+}) {
+  return `Your address: ${city} ${street} ${housNr} ${zipcode}`;
+}
+const test = getAddress({});
+const test = getAddress({ address: { street: "Hello", city: "Kyiv" } });
+console.log(test);
+
+function getAddress({ address }) {
+  if (address) {
+    const { city, street = "Не вказано", housNr, zipcode = 1000 } = address;
+
+    return `Your address: ${city} ${street} ${housNr} ${zipcode}`;
+  }
+
+  return `немає данних`;
+}
+const test = getAddress({ city: "Kyiv" });
+console.log(test);
+
+/*що таке Literal ???? ****/
+const b = String("Test");
+console.log(b);
+
+/* только для Демо! вбудовуємо свою власну функцию!!!!!!!!!! */
+Number.prototype.toMyString = function () {
+  console.log(this);
+
+  return `Число: ${this}`;
+};
+const b = 1;
+const c = b.toMyString();
+console.log(c);
+
+function Test() {
+  this.world = "World";
+
+  return "Hello" + this.world;
+}
+
+Test.hello = "Hello";
+console.log(Test());
+/* Урок №16 Символ ************/
+// const user = {
+//   name: "Olga",
+//   id: 123451,
+//   bookId: null,
+
+//   getPhone(book) {
+//     return book[this.bookId];
+//   },
+// };
+
+// const phoneBook = {
+//   olga: "+38067433551",
+// };
+
+// // ............
+
+// function addToPhoneBook(phone, user) {
+//   const key = Symbol(user.id);
+
+//   phoneBook[key] = phone;
+
+//   user.bookId = key;
+// }
+
+// addToPhoneBook("+38067433551", user);
+//////.............................
+/*21:22*/
+
+// console.log(user.getPhone(phoneBook));
+// console.log(phoneBook);
+
+/* неунікальний Symbol.for */
+//const a = Symbol.for('1')
+//const b = Symbol.for('1')
+//console.log(a, b);
+
+let range = {
+  from: 1,
+  to: 5,
+
+  [Symbol.iterator]() {
+    this.current = this.from;
+
+    return this;
+  },
+  next() {
+    return this.current <= this.to
+      ? { done: false, value: this.current++ }
+      : { done: true };
+  },
+};
+
+// for (let num of range) {
+//   console.log(num);
+// }
+
+// const iterator = range[Symbol.iterator]();
+
+// do {
+//   console.log(iterator.current);
+
+//   result = iterator.next();
+// } while (!result.done);
+
+/*!!!!!!!!! может подойти для слайдеру, там де зміна карточки картинок товару*/
+const arr = [1, 2, 3, 4, 5];
+const iterator = arr[Symbol.iterator]();
+result = iterator.next();
+do {
+  console.log(result.value);
+  result = iterator.next();
+} while (!result.done);
+
+// /*  Урок 17 Вбудовані функции для Масивів ч1*/////////////////
+const obj = {
+  0: "Hello",
+  1: "World",
+  2: "!!!",
+  length: 3,
+  prefix: "():",
+};
+
+console.log(
+  Array.from(
+    obj,
+    function (elem, index) {
+      //   console.log(this.length);
+      console.log(elem, index);
+
+      return `${this.prefix}${elem}`;
+    },
+    obj
+  )
+);
+///...
+// console.log(
+//   Array.isArray(arr));
+/*чітко на рівні данних визначає? чи це массив, чи ні*/
+
+// let arr1 = [1, 2, 3];
+// const arr2 = [4, 5, 6, 5, 7, 8, 9];
+
+// console.log(Array.of(...arr1, ...arr2));
+/*!!! квадратні дужки[замість Array.of   */
+
+// console.log(arr1.at(10));
+
+// console.log(-(arr1.length - arr1.push(10, 20, 30, 40)));
+// console.log(arr1);
+
+// console.log(arr1.pop());
+// console.log(arr1);
+
+// console.log(arr1.shift());
+// console.log(arr1);
+
+// console.log(arr1.unshift(0, 1));
+// console.log(arr1);
+
+// console.log(arr2.includes(5));
+
+// console.log(arr2.indexOf(50));
+
+// console.log(arr2.lastIndexOf(5));
+
+/* обьеднаня масивів ************************/
+
+// const arr3 = [...arr1, ...arr2];
+// console.log(arr3);
+/*аналог с конкат*/
+// const arr3 = arr1.concat(...arr2);
+// console.log(arr3);
+
+// let arr1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+// console.log(arr1);
+
+// arr1.copyWithin(2, 6, 9);
+
+// console.log(arr1);
+
+// arr1.fill([1, 2], 6, 9);
+// console.log(arr1);
+
+// arr1.reverse();
+// console.log(arr1);
+
+// const filterFn = (value, index, array) => value % 2 === 0;
+// const filteredArr = arr1.filter(filterFn);
+// console.log(filteredArr);
+
+const sortFn = (elem1, elem2) => {
+  // let result = elem1 - elem2;
+  // if (elem1 % 2 === 0) {
+  //   result += 10;
+  // }
+  // return elem1 < elem2 ? 1 : -1;
+  // return result;
+
+  /* Зробимо сорутвання не просто більше-меньш,!!! а по лівій парні... а по правій непарні***/
+  if (elem1 % 2 === elem2 % 2) {
+    return 0;
+  } else if (elem1 % 2 !== 0 && elem2 % 2 === 0) {
+    return 1;
+  } else {
+    return -1;
+  }
+};
+const sortedArr = [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].sort(
+  sortFn
+);
+console.log(sortedArr);
+
+console.log(["Arabic", "Info", "Zero", "City"].sort());
+
+//................
+
+console.log(arr2.some((elem, index, array) => elem < 0));
+
+
+// /*  Урок 18 Вбудовані функции для Масивів ч2*////////////////
+const userList = [
+  { id: 6412, name: "Anton", age: 41, balance: 300 },
+  { id: 54, name: "Ivan", age: 35, balance: 0 },
+  { id: 1, name: "Dima", age: 19, balance: 1200 },
+];
+
+const result = userList.map((user, index, array) => {
+  user.balanceLimit = 1000 - user.balance;
+
+  if (user.balanceLimit < 0) {
+    user.balanceLimit = 0;
+  }
+
+  return user.name;
+});
+console.log(result.join(", "));
+
+const result = userList.reduce((num, user, userIndex, array) => {
+  console.log(num, user.age);
+  return user.age > num ? user.age : num;
+}, 1);
+
+ let minAge = 30;
+
+ const userBigAge = userList.sort((user1, user2) => {
+   return user2.age - user1.age;
+ });
+
+ const userBigAge = userList.find(({ age }) => age >= minAge);
+
+ const userBigAge = userList.findIndex(({ age }) => age >= minAge);
+
+ const userBigAge = userList.findLast(({ age }) => age >= minAge);
+
+ console.log(userBigAge);
+
+ console.log(userList.keys());
+
+/*Syper iterator!! 19 */
+
+ const iter = userList.values();
+ console.log(iter);
+
+ const result = iter.next();
+
+ console.log(result);
+
+ for (const elem of iter) {
+   console.log(elem);
+ }
+
+/* Join Sepereator!!!!!!!!!!!!!!!!!!!!!!*/
+ const arr = ["Apple", "Hotdog", "Banana", "Milk"];
+ console.log(arr.join("..."));
+ const arrSmall = arr.splice(1, 0, ...userList);
+
+ const arrSmall = arr.slice(1, 3);
+ console.log(arrSmall);
+
+...........................
+ const flatArray = [
+   [100, 105],
+   [200, 205],
+   [220, 230],
+   [400, 455],
+ ];
+
+ console.log(flatArray.flat(2));
+
+ console.log(flatArray.map((el) => [...el, el[0] - el[1]]));
+
+const flatArray = [
+  [
+    [100, 105],
+    [200, 205],
+  ],
+  [
+    [220, 230],
+    [400, 455],
+  ],
+];
+
+const result = flatArray.flatMap((el) => {
+  return el.map((it) => {
+    return it[0] - it[1];
+  });
+});
+console.log(result);
+....
+
+result.forEach((elem, index, array) => {
+  console.log(elem);
+});
