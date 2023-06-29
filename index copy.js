@@ -1510,3 +1510,281 @@ console.log(result);
 result.forEach((elem, index, array) => {
   console.log(elem);
 });
+/*  Урок 19 Вбудовані можливості для ОБ"ЄКТів ********/
+const article = {
+  info: {
+    title: "My article",
+    description: "This is info about article",
+  },
+  id: 105423,
+  categoryId: 1423,
+  LikeAmount: 442,
+};
+const ARTICLE_FIELD = {
+  title: "ID статті",
+  description: "заголовок статті",
+};
+articlePhoto = {
+  photoUrl: "...url",
+  photold: 100,
+  photoType: "big",
+};
+
+articleCommentList = {
+  list: [{ id: 4323, user: "Ivan", message: "Крутий контент" }],
+};
+Object.assign(article, articlePhoto, articleCommentList);
+console.log(article);
+console.log(Object.entries(article.info));
+
+const formList = Object.entries(article.info);
+
+const formListLayout = formList.map(([key, value]) => {
+  return [
+    `<p> <strong> ${ARTICLE_FIELD[key]} </strong> <br> <span>  ${value} <span> `,
+  ];
+});
+console.log(formListLayout);
+
+const objArr = [
+  ["id", 10043],
+  ["Ivan", "Крутий контент"],
+  ["price", 1203],
+];
+console.log(Object.fromEntries(objArr));
+
+console.log(article.hasOwnProperty("id"));
+
+/* ......Перевірка властивості на перераховність* propertyIsEnumerable( ) prop */
+console.log(article.propertyIsEnumerable("test"));
+
+/*Замороженний обьект!!!!!!!!!!!!!!*/
+Object.freeze(article);
+console.log(Object.isFrozen(article));
+
+Object.preventExtensions(article);
+article.test = "33215631";
+console.log(article.test);
+
+Object.seal(article);
+delete article.id;
+console.log(article.id);
+
+console.log(Object.isSealed(article));
+
+console.log(Object.keys(article));
+
+/*Це вбудована функція, яка повертає масив з ключами доступних властивостей об'єкта*/
+console.log(Object.values(article.info));
+
+
+/*  Урок 20 множина ********/
+
+const userIdList = new Set([40132, 45451, 65431, 506541]);
+ console.log(userIdList);
+
+ for (const value of userIdList) {
+   console.log(value);
+ }
+
+/* або так запишемо, аналогічно вийде  ............. */
+
+  userIdList.forEach((value, value2, set) => console.log(value));
+ console.log(userIdList.size);
+
+ =====
+ userIdList.add(40132);
+
+ console.log(userIdList);
+ console.log(userIdList.size);
+ =====
+
+ userIdList.add(40133);
+ console.log(userIdList);
+ console.log(userIdList.size);
+
+ =====
+
+ userIdList.delete(40133);
+ console.log(userIdList);
+ console.log(userIdList.size);
+ ===
+ console.log(userIdList.has(40133));
+ console.log(userIdList.has(40132));
+ ===
+ userIdList.clear();
+ console.log(userIdList);
+
+ const key = userIdList.values();
+ console.log(key);
+
+ const entry = userIdList.entries();
+
+ const obj = Object.fromEntries(entry);
+ console.log(obj);
+
+ const valueList = userIdList.values();
+
+ const arr = Array.from(valueList);
+ console.log(arr);
+ const arr = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
+
+ const set = new Set(arr);
+
+  const arr2 = Array.from(set);
+ const arr2 = [...set];
+
+ console.log(arr2);
+ const categoryList = new Set();
+
+ function addCategory(category) {
+   if (categoryList.has(category)) {
+     console.log("Ця категорія вже є");
+     return false;
+   }
+
+   categoryList.add(category);
+   return true;
+ }
+
+ console.log(addCategory("спорт"));
+ console.log(addCategory("спорт"));
+ console.log(addCategory("їжа"));
+
+ result = commonElements (array1, array2);
+ console. log (result)
+
+const students = [
+  { id: 1, name: "John", course: "Math" },
+  { id: 2, name: "Jane", course: "Science" },
+  { id: 3, name: "Adam", course: "Math" },
+  { id: 4, name: "Eve", course: "English" },
+  { id: 5, name: "Kate", course: "Science" },
+];
+
+const courseList = new Set(students.map((student) => student.course));
+console.log(courseList);
+ console.log(Array.from(courseList));
+/*  Урок 21 СЛОВНИК Просунутій тип данних ********/
+const button = new Map([
+  ["color", "red"],
+  ["size", "32px"],
+]);
+console.log(button);
+
+const obj = {
+  color: "red",
+  size: 32 + "px",
+};
+
+const set = new Set(["red", "32px"]);
+
+const button2 = new Map(Object.entries(Object.fromEntries(set.entries())));
+console.log(button2);
+
+const button3 = new Map(set.entries());
+console.log(button3.entries());
+
+const set2 = new Set(button.keys());
+console.log(set2);
+
+const button = new Map([
+  ["color", "red", "32px"],
+  ["size", "32px"],
+]);
+
+for (const value in Object.fromEntries(button.entries())) {
+  console.log(value);
+}
+
+for (const [key, value] of button) {
+  console.log(key, value);
+}
+
+button.forEach((value, key, map) => console.log(value, key, map));
+
+console.log(button.size);
+
+button.set("weight", 600);
+console.log(button.get("weight"));
+
+console.log(button.delete("weight"));
+console.log(button.has("weight"));
+console.log(button.has("color"));
+
+button.clear();
+console.log(button);
+
+/* 1й приклад!!!!!!!!!!!!! словника - для зміни мов*/
+const LANG_LIST = {
+  UA: "uk-UA",
+  EU: "ea-US",
+};
+const activeLang = LANG_LIST.UA;
+const product = {
+  price: 100,
+  amount: 3,
+  info: new Map([
+    [
+      LANG_LIST.UA,
+      {
+        title: "Загаловок",
+        info: "Інформація",
+      },
+    ],
+    [
+      LANG_LIST.EU,
+      {
+        title: "Title",
+        info: "Info",
+      },
+    ],
+  ]),
+};
+console.log(product);
+const info = product.info.get(activeLang);
+console.log(info);
+
+console.log(product.info.has(activeLang));
+
+/* 2й приклад!!!!!!!!!!!!*/
+const user1 = {
+  id: 1323,
+  name: "Ivan",
+};
+const user2 = {
+  id: 4231,
+  name: "Anton",
+};
+const product1 = {
+  id: 5314,
+  title: "Mob Phone",
+};
+const product2 = {
+  id: 5335,
+  title: "Apple",
+};
+
+
+const userProduct = new Map();
+
+userProduct.set(user1, product1).set(user2, product2);
+console.log(userProduct);
+
+console.log(userProduct.has(user1));
+
+console.log(userProduct.get(user1));
+
+const productClientList = new Map([[product1, new Set()]]);
+
+productClientList.set(product1, new Set());
+
+productClientList.set(product1, productClientList.get(product1).add(user1));
+
+console.log(productClientList);
+
+productClientList.set(product1, productClientList.get(product1).add(user2));
+console.log(productClientList);
+
+const hasUser = productClientList.get(product1).has(user1);
+console.log(hasUser);

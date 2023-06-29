@@ -1,93 +1,70 @@
-const userList = [
-  { id: 6412, name: "Anton", age: 41, balance: 300 },
-  { id: 54, name: "Ivan", age: 35, balance: 0 },
-  { id: 1, name: "Dima", age: 19, balance: 1200 },
-];
+/*  Урок 22 JSON / URL Просунуті тип данних ********/
+ const roleField = "roleName";
 
-const result = userList.map((user, index, array) => {
-  user.balanceLimit = 1000 - user.balance;
+ const data = {
+   id: 1043,
+   login: "user3431",
+   password: "123451we@",
+   [roleField]: "Admin",
+   go() {
+     console.log("go");
+   },
+   test1: {
+     test2: 123,
+   },
+ };
 
-  if (user.balanceLimit < 0) {
-    user.balanceLimit = 0;
-  }
+ const jsonData = JSON.stringify(
+   data,
+   (key, value) => {
+     if (key === roleField) {
+       return null;
+     }
+     if (typeof value === "string") {
+       return value.toUpperCase();
+     }
 
-  return user.name;
-});
-console.log(result.join(", "));
+     if (typeof value === "number") {
+       return value * 10;
+     }
+     return value;
+   },
+   4
+ );
 
-const result = userList.reduce((num, user, userIndex, array) => {
-  console.log(num, user.age);
-  return user.age > num ? user.age : num;
-}, 1);
+ console.log(jsonData);
 
- let minAge = 30;
+ const parseData = JSON.parse(jsonData, (key, value) => {
+   if (key === roleField) {
+     return "Admin";
+   }
+   if (typeof value === "string") {
+     return value.toLowerCase();
+   }
 
- const userBigAge = userList.sort((user1, user2) => {
-   return user2.age - user1.age;
+   if (typeof value === "number") {
+     return value / 10;
+   }
+   return value;
  });
+ console.log(parseData);
+ ......
 
- const userBigAge = userList.find(({ age }) => age >= minAge);
+ const url = new URL("https:www.example.com/path/info#how-to-do").hash;
 
- const userBigAge = userList.findIndex(({ age }) => age >= minAge);
+ console.log(url.slice(1));
 
- const userBigAge = userList.findLast(({ age }) => age >= minAge);
+ const url = new URL("https:admin:12345@example.com:8080/path");
+ console.log(url.password);
 
- console.log(userBigAge);
+ const url = new URL("https:example.com/path?param=value#section")
+   .searchParams;
+ console.log(url);
+ console.log(url.has("q"));
+ console.log(url.get("name"));
 
- console.log(userList.keys());
+ console.log(url.getAll("q"));
 
-/*Syper iterator!! 19 */
-
- const iter = userList.values();
- console.log(iter);
-
- const result = iter.next();
-
- console.log(result);
-
- for (const elem of iter) {
-   console.log(elem);
- }
-
-/* Join Sepereator!!!!!!!!!!!!!!!!!!!!!!*/
- const arr = ["Apple", "Hotdog", "Banana", "Milk"];
- console.log(arr.join("..."));
- const arrSmall = arr.splice(1, 0, ...userList);
-
- const arrSmall = arr.slice(1, 3);
- console.log(arrSmall);
-
-...........................
- const flatArray = [
-   [100, 105],
-   [200, 205],
-   [220, 230],
-   [400, 455],
- ];
-
- console.log(flatArray.flat(2));
-
- console.log(flatArray.map((el) => [...el, el[0] - el[1]]));
-
-const flatArray = [
-  [
-    [100, 105],
-    [200, 205],
-  ],
-  [
-    [220, 230],
-    [400, 455],
-  ],
-];
-
-const result = flatArray.flatMap((el) => {
-  return el.map((it) => {
-    return it[0] - it[1];
-  });
-});
-console.log(result);
-....
-
-result.forEach((elem, index, array) => {
-  console.log(elem);
-});
+const url = new URL("https:google.com/search");
+url.searchParams.append("q", "cat photo");
+console.log(url.href);
