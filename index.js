@@ -1,70 +1,50 @@
-/*  Урок 22 JSON / URL Просунуті тип данних ********/
- const roleField = "roleName";
+/*  Урок 28 : Обробка помилок...!!! ********/
 
- const data = {
-   id: 1043,
-   login: "user3431",
-   password: "123451we@",
-   [roleField]: "Admin",
-   go() {
-     console.log("go");
-   },
-   test1: {
-     test2: 123,
-   },
- };
+function getUserData(userId) {
+  try {
+    const a = 10;
+    a = 5;
 
- const jsonData = JSON.stringify(
-   data,
-   (key, value) => {
-     if (key === roleField) {
-       return null;
-     }
-     if (typeof value === "string") {
-       return value.toUpperCase();
-     }
+    // ... робить запит до бази даних
+  } catch (err) {
+    // err - помилка про те, що дані з сервера не можуть бути отриманні
+    const newError = new Error(
+      `Помилка. Неможливо отримати дані користувача ${userId}`,
+      {
+        cause: err,
+      }
+    );
+    console.log(newError.toString());
+  }
+}
+getUserData(10123);
 
-     if (typeof value === "number") {
-       return value * 10;
-     }
-     return value;
-   },
-   4
- );
+// ///************/
+// function updateUserData(userId) {
+//   try {
+//     const data = getUserData(userId);
+//     data.name = "Ivan";
+//     // ...
+//   } catch (err) {
+//     const newError = new Error(
+//       `Помилка. Неможливо отримати дані користувача ${userId}`,
+//       {
+//         cause: err,
+//       }
+//     );
+//     console.log(newError.message);
+//   }
+// }
+// updateUserData(3123);
 
- console.log(jsonData);
-
- const parseData = JSON.parse(jsonData, (key, value) => {
-   if (key === roleField) {
-     return "Admin";
-   }
-   if (typeof value === "string") {
-     return value.toLowerCase();
-   }
-
-   if (typeof value === "number") {
-     return value / 10;
-   }
-   return value;
- });
- console.log(parseData);
- ......
-
- const url = new URL("https:www.example.com/path/info#how-to-do").hash;
-
- console.log(url.slice(1));
-
- const url = new URL("https:admin:12345@example.com:8080/path");
- console.log(url.password);
-
- const url = new URL("https:example.com/path?param=value#section")
-   .searchParams;
- console.log(url);
- console.log(url.has("q"));
- console.log(url.get("name"));
-
- console.log(url.getAll("q"));
-
-const url = new URL("https:google.com/search");
-url.searchParams.append("q", "cat photo");
-console.log(url.href);
+function sumNum(a, b) {
+  if (typeof a !== "number" || typeof b !== "number") {
+    throw new Error("Аргументи не є числами");
+  }
+  return a + b;
+}
+try {
+  sumNum(10, "abc");
+} catch (err) {
+  console.log(err.message);
+}

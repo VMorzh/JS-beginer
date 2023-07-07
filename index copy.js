@@ -1788,3 +1788,269 @@ console.log(productClientList);
 
 const hasUser = productClientList.get(product1).has(user1);
 console.log(hasUser);
+
+
+/*  Урок 22 JSON / URL Просунуті тип данних ********/
+const roleField = "roleName";
+
+const data = {
+  id: 1043,
+  login: "user3431",
+  password: "123451we@",
+  [roleField]: "Admin",
+  go() {
+    console.log("go");
+  },
+  test1: {
+    test2: 123,
+  },
+};
+
+const jsonData = JSON.stringify(
+  data,
+  (key, value) => {
+    if (key === roleField) {
+      return null;
+    }
+    if (typeof value === "string") {
+      return value.toUpperCase();
+    }
+
+    if (typeof value === "number") {
+      return value * 10;
+    }
+    return value;
+  },
+  4
+);
+
+console.log(jsonData);
+
+const parseData = JSON.parse(jsonData, (key, value) => {
+  if (key === roleField) {
+    return "Admin";
+  }
+  if (typeof value === "string") {
+    return value.toLowerCase();
+  }
+
+  if (typeof value === "number") {
+    return value / 10;
+  }
+  return value;
+});
+console.log(parseData);
+......
+
+const url = new URL("https:www.example.com/path/info#how-to-do").hash;
+
+console.log(url.slice(1));
+
+const url = new URL("https:admin:12345@example.com:8080/path");
+console.log(url.password);
+
+const url = new URL("https:example.com/path?param=value#section")
+  .searchParams;
+console.log(url);
+console.log(url.has("q"));
+console.log(url.get("name"));
+
+console.log(url.getAll("q"));
+
+const url = new URL("https:google.com/search");
+url.searchParams.append("q", "cat photo");
+console.log(url.href);
+
+/*  Урок 23 Data Вбудовані можливості: Дата, час...!!! ********/
+
+const date = new Date();
+// /*просто дейт виводить в 0-му таймзон*/
+// console.log(date);
+
+// const date = Date.now();
+/*Date.now повертає миллисекунди*/
+
+const dateString = date.toISOString();
+
+console.log("year", date.getFullYear());
+date.setFullYear(2020);
+console.log("year", date.getFullYear());
+// console.log(date.getFullYear());
+
+console.log("month", date.getMonth());
+date.setMonth(1);
+console.log("month", date.getMonth());
+
+console.log("date", date.getDate());
+date.setDate(27);
+console.log("date", date.getDate());
+
+console.log("min", date.getMinutes());
+date.setMinutes(26);
+console.log("min", date.getMinutes());
+
+console.log("sec", date.getSeconds());
+console.log(date.setSeconds(27));
+console.log("sec", date.getSeconds());
+
+console.log("ms", date.getMilliseconds());
+date.setMilliseconds(501);
+console.log("ms", date.getMilliseconds());
+
+console.log(date.toDateString());
+
+// console.log(dateString);
+// console.log(new Date(dateString));
+/*зробимо на 5000 милисекунд довше час*/
+// let date2 = Date.parse(dateString) + 5000;
+// let date2 = Date.parse(dateString) + 1000 * 60 * 5;
+// console.log(date2);
+
+/*date.toString виводить в нормальному таймзон, тобто мій час!!*/
+// console.log(date.toString());
+
+// /*date.toString виводить в 0 таймзон, GMT час! вирахувааня через нульнову таймзону, варто використовувату*/
+// console.log(date.toUTCString());
+// console.log(date.toISOString());
+
+// /*можно вивести лише дату, або час*/
+// console.log(date.toDateString());
+// console.log(date.toTimeString());
+
+// const zone = date.getTimezoneOffset() / -60;
+// console.log(zone);
+
+const user = -3;
+
+function getUserTimeZone(timezone) {
+  // let date = Date.now();
+
+  /* створюємо ДАТУ та час,,,,,,,,,,,,,*/
+  let date = new Date(Date.UTC(2023, 5, 26, 12, 30, 0, 0));
+  // console.log(date.getTime());
+  // console.log(date.getHours());
+  // console.log(date.getUTCHours());
+
+  /*тут результатом будут миллисекунди!що добре для обчислень,
+  едине що далі ці значення треба вкласти в змінну!*/
+  date.setHours(date.getUTCHours() + timezone);
+  // console.log(date.toUTCString());
+
+  // const myTimezone = date.getTimezoneOffset() / -60;
+  // console.log(myTimezone);
+  // date.setTime(date.getTime() - 1000 * 60 * 60 * myTimezone);
+  // date.setTime(date.getTime() + 1000 * 60 * 60 * myTimezone);
+  // date -= 1000 * 60 * 60 * myTimezone;
+  return date;
+}
+// console.log(new Date(1687782600000).toString());
+const userDate = getUserTimeZone(user);
+// console.log(userDate.toString());
+// console.log(userDate.toUTCString());
+
+// console.log(userDate.getHours());
+// console.log(userDate.getUTCHours());
+// console.log(userDate.toTimeString());
+
+// console.log(new Date(getUserTimeZone(user)).toString());
+// console.log(new Date().toUTCString());
+
+/*  Урок 25 : Консоль...!!! ********/
+const counterLabel = "Timer";
+
+console.time(counterLabel);
+console.count(counterLabel);
+console.groupCollapsed("Group 1");
+console.log("Test 1");
+console.warn("Test 2");
+console.groupCollapsed("Group 2");
+
+console.timeLog(counterLabel);
+console.count(counterLabel);
+
+console.debug("Test 3");
+console.groupEnd();
+
+console.groupEnd();
+
+console.timeEnd(counterLabel);
+console.countReset(counterLabel);
+
+const test1 = () => console.trace("Hello!");
+const test2 = () => test1();
+const test3 = () => test2();
+test3();
+
+const data = [
+  { name: "John", age: 25, city: "New York" },
+  { name: "Alice", age: 30, city: "London" },
+];
+
+console.table(data, ["name", "age", "city"]);
+
+const a = 5;
+const b = 10;
+
+const result = a > b;
+
+console.assert(result, "Info: x не дорівнює y");
+
+/* console.clear - одразу ж очищає консоль */
+
+console.log(
+  "%cHello World",
+  "font-size: 40px; color: yellow; background-color: blue;"
+);
+
+
+
+/*  Урок 28 : Обробка помилок...!!! ********/
+
+// function getUserData(userId) {
+//   try {
+//     const a = 10;
+//     a = 5;
+
+//     // ... робить запит до бази даних
+//   } catch (err) {
+//     // err - помилка про те, що дані з сервера не можуть бути отриманні
+//     const newError = new Error(
+//       `Помилка. Неможливо отримати дані користувача ${userId}`,
+//       {
+//         cause: err,
+//       }
+//     );
+//     console.log(newError.toString());
+//   }
+// }
+// getUserData(10123);
+
+// ///************/
+// function updateUserData(userId) {
+//   try {
+//     const data = getUserData(userId);
+//     data.name = "Ivan";
+//     // ...
+//   } catch (err) {
+//     const newError = new Error(
+//       `Помилка. Неможливо отримати дані користувача ${userId}`,
+//       {
+//         cause: err,
+//       }
+//     );
+//     console.log(newError.message);
+//   }
+// }
+// updateUserData(3123);
+
+function sumNum(a, b) {
+  if (typeof a !== "number" || typeof b !== "number") {
+    throw new Error("Аргументи не є числами");
+  }
+  return a + b;
+}
+try {
+  sumNum(10, "abc");
+} catch (err) {
+  console.log(err.message);
+}
