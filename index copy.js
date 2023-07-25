@@ -2054,3 +2054,583 @@ try {
 } catch (err) {
   console.log(err.message);
 }
+/*  Урок 29 : ООП ..!!! ********/
+/* Наслідування(1принцип), створенн обєекта з прототипом*/
+
+let Animal = {
+  name: "Тварина",
+  voice: "Звук",
+  say() {
+    console.log(`${this.name} каже ${this.voice}`);
+  },
+};
+const dog = Object.create(Animal);
+dog.name = "Бобік";
+dog.voice = "Гав";
+dog.say();
+/* Інкапсуляція(2принцип), визначення налаштування властивості */
+ Object.defineProperty(dog, "_age", {
+   value: 5,
+   writable: true,
+ });
+ Object.defineProperty(dog, "age", {
+   set(value) {
+     this._age = value * 2;
+   },
+   get() {
+     return `${this._age || 0} років`;
+   },
+ });
+ console.log(dog.age);
+ dog.age = 15;
+ console.log(dog.age);
+ delete dog.age;
+ console.log(dog._age);
+ console.log(Object.keys(dog));
+
+ Object.defineProperty(dog, "location", {
+   value: "Ukraine",
+   writable: true,
+    configurable: true,
+    enumerable: true,
+ });
+ console.log(dog.location);
+ delete dog.location;
+ console.log(Object.keys(dog));
+
+ console.log(dog.age);
+ console.log(dog);
+ Animal.go = function () {
+   console.log(`${this.name} біжить`);
+ };
+
+ dog.go();
+  console.log(dog.__proto__);
+ console.log(Object.getPrototypeOf(dog) === Animal);
+ console.log(Animal.isPrototypeOf(dog));
+
+ Object.setPrototypeOf(dog, { abc: "123" });
+ console.log(Object.getPrototypeOf(dog));
+
+/* Поліморфізм(3принцип), */
+const Tag = {
+  render(value) {
+    return `< ${this.className}>${value}<>`;
+  },
+  className: null,
+};
+//======
+const Button = Object.create(Tag);
+
+Button.render = function (value = "") {
+  return `<button class="${this.className}" style="${this.style}">${value}<button>`;
+};
+//======
+
+const mainButton = Object.create(Button, {
+  style: {
+    value: "background: red;",
+    writable: true,
+  },
+  className: {
+    value: "my-button",
+  },
+});
+console.log(mainButton.render("CLick"));
+console.log(mainButton.className);
+
+//======Абстракція (4принцип),
+
+const Input = Object.create(Tag);
+Input.render = function () {
+  return `<input placeholder="${this.placeholder}" style="${this.style}"/>`;
+};
+
+const loginInput = Object.create(Input, {
+  style: {
+    value: "border: 1px solid red;",
+    writable: true,
+  },
+  placeholder: {
+    value: "Login...",
+  },
+});
+console.log(loginInput.render());
+console.log(loginInput.className);
+//======Абстракція (4принцип),
+
+const serverRequest = {
+  data: null,
+  getData() {
+    /..
+  },
+  render() {
+    this.data = this.getData();
+    return `...`;
+  },
+};
+//======Абстракція (4принцип),
+const Page = {
+  components: [],
+  path: "/.../.../",
+  render() {
+    /..
+  },
+};
+
+
+/*  Урок 30 : функції-конструктори..!!! ********/
+// const User = {
+//   login: null,
+//   password: null,
+//   role: null,
+//   age: null,
+// };
+
+function User(data) {
+  if (new.target) {
+    const { login = null, password = null, isAdmin = null, age = 0 } = data;
+
+    const role = isAdmin ? "Admin" : "User";
+
+    const object = Object.assign(this, {
+      login,
+      password,
+      role,
+      age,
+    });
+    if (role === "Admin") {
+      object.verify = function (password) {
+        console.debug(password, this);
+        return this.password === password;
+      };
+    }
+
+    if (age >= 50) {
+      object.login = String(object.login).toUpperCase();
+    }
+    object.toString = function () {
+      return `Користувач ${this.login}`;
+    };
+    return object;
+  } else {
+    return new User(data);
+  }
+}
+// function UserAdmin({ login = null, password= null, isAdmin= null, age = 0 }) {
+//   this.login = login;
+//   this.password = password;
+//   this.role = isAdmin ? "Admin" : "User";
+//   this.age = age;
+
+//   this.verify = function (password) {
+//     return this.password === password;
+//   };
+// }
+
+// // =====
+
+const registerData = {
+  login: "ivan",
+  password: "123qwe342",
+  age: 50,
+  isAdmin: true,
+};
+
+const user = User(registerData);
+// console.log(user.verify("qwert45"));
+console.log(user.toString());
+// // =====
+
+const adminData = {
+  login: "ivan",
+  password: "123qwe342",
+  age: 50,
+  isAdmin: true,
+};
+
+const admin = new User(adminData);
+console.log(admin.password);
+
+// // =====
+
+const testData = {
+  login: "ivan",
+  password: "123qwert45",
+};
+const testUser = new User(testData);
+console.log(testUser.login);
+
+// // =====
+console.log(Object.getPrototypeOf(testUser) === User.prototype);
+
+// // =====
+
+const test = User;
+
+console.log(test.name);
+
+// // ====
+console.log("======");
+console.log(user.verify("123qwe342"));
+
+const verifyUser = user.verify.bind(user, "123qwe342");
+
+// console.log(verifyUser.apply(user, ["123qwe342"]));
+console.log(verifyUser());
+
+function Animal(name) {
+  this.name = name;
+}
+const Person = function (name, age) {
+  Animal.call(this, name);
+  this.age = age;
+};
+const user2 = new Person("Iegohtv", 32);
+console.log(user2.name);
+
+// function User ({ login, password, role, age }) {
+// Animal.call(this);
+// this. login = login:
+// this.password = password;
+// this.role = role;
+// this.age = age;
+// console. log (new User () .test);
+// }
+
+
+/*  Урок 31 : КЛАСИ..!!! ********/
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+  test = () => {
+    console.log("Hello world!", this.name);
+  };
+}
+class User extends Person {
+  constructor(login, password) {
+    super(login);
+
+    this.login = login;
+    this.password = password;
+  }
+
+  login = null;
+  password = null;
+
+  #role = null;
+
+  age = null;
+  id = 0;
+  #id = 100;
+  isAdmin = () => {
+    console.log(this.#id);
+    this.createAdminUser();
+    return this.role === "Admin";
+  };
+  /* створимо Статик для створення нoвого логину */
+  createAdminUser = (login) => {
+    const password = this.generateRandomPassword();
+    return new User();
+  };
+
+  static generateRandomPassword = () => {
+    return true;
+  };
+
+  get admin() {
+    return this.#role === "Admin";
+  }
+  set admin(value) {
+    this.#role = "Admin";
+  }
+}
+const user = new User("Ivan", "123login");
+
+// console.log(user.isAdmin());
+
+function verifyAdmin(fn) {
+  const result = fn();
+
+  if (!result) {
+    throw new Error("Не адмін");
+  }
+  return true;
+}
+console.log(user.test());
+
+console.log(user instanceof User);
+
+// verifyAdmin(user.isAdmin);
+
+// console.log(user.admin);
+// user.admin = true;
+// console.log(user.admin);
+
+// console.log(user);
+
+/*defineProperties() - визначає декілька нових або змінює існуючі властивості. Синтаксис: Object.defineProperties (obj, {name:props [, name2:props2, .*/
+// Object.defineProperties({
+//   name: {
+//     get() {
+
+//     }
+//     set () {
+
+//     }
+//   }
+// });
+//======//============
+// console.log(User.prototype === user.__proto__);
+// console.log(User.prototype.isPrototypeOf(user));
+
+
+/*  Урок 34 : ЦИКЛИ Подій..!!! ********/
+
+const immediateId = setImmediate(() => {
+  console.log("Перший");
+});
+
+const itervalId = setInterval(() => {
+  console.log("П'ятий");
+}, 1000);
+
+timeoutId = setTimeout(() => {
+  console.log("Другий");
+
+  clearInterval(itervalId);
+}, 5000);
+
+console.log("Третій");
+
+console.log("Четвертий");
+
+clearImmediate(immediateId);
+// clearTimeout(timeoutId);
+
+/*  Урок 35 : Управління асинхронними
+операціями..!!! ********/
+//  result.then ((data) => {
+//     console.log (data, 3);
+//     return null;
+//  });
+///.....////....////
+
+// function loadFile(filename) {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       resolve(`Вміст файлу ${filename}`);
+//     }, 2000);
+//   });
+// }
+// function convertFile(content) {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       resolve(`Конвертований вміст: ${content.toUpperCase()}`);
+//     }, 1000);
+//   });
+// }
+// function saveFile(convertedContent) {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       resolve();
+//     }, 1500);
+//   });
+// }
+
+///.....////....////
+// loadFile("example.txt")
+//   .then((content) => {
+//     console.log("Файл завантажено успішно!");
+//     console.log("Вміст файлу:", content);
+//     return convertFile(content);
+//   })
+//   .then((data) => {
+//     return getInfofromFile(data);
+//   })
+//   .then((convertedContent) => {
+//     console.log("Файл успішно сконвертовано!");
+//     console.log("Конвертований вміст:", convertedContent);
+//     return savefile(convertedContent);
+//   })
+//   .then(() => {
+//     console.log("Файл успішно збережено!");
+//     return sendFileToClient();
+//   })
+//   .catch((error) => {
+//     console.error("Сталася помилка:", error);
+//   })
+//   .finally(() => {
+//     console.log("Файл успішно відправлено клієнту!");
+//   });
+
+/*  Урок 36 : Робота з Promise та HTTP запити..!!! ********/
+// function loadFile() {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => resolve("Дані файлу "), 2000);
+//   });
+// }
+// function sendFileToData(fileData) {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => resolve(true), 1500);
+//   });
+// }
+// const loadAndSendFile = () =>
+//   loadFile()
+//     .then((data) => sendFileToData(data))
+//     .finally(() => console.log("Файл відправлен!"));
+
+// const loadAndSendFile = async () => {
+//   const data = await loadFile();
+//   await sendFileToData(data);
+//   console.log("end send file");
+// };
+
+// loadAndSendFile().then(() => {
+//   console.log("End");
+// });
+
+/*  Урок 36 : ... HTTP запити    !!! ********/
+
+// console.log(new Date().getTime());
+
+// const request = new Request("https://jsonplaceholder.typicode.com/todos/1", {
+//   method: "DELETE",
+// });
+// console.log(request.method);
+// fetch(request);
+
+// fetch("https://jsonplaceholder.typicode.com/todos/1", {
+//     method: "DELETE",
+// });
+
+// const data = {
+//   id: 1,
+//   name: "User",
+//   age: 54,
+// };
+
+// async function getData() {
+//   const res = await fetch("https://jsonplaceholder.typicode.com/todos/1", {
+//     method: "GET",
+//     //   body: JSON.stringify(data),
+
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: "Bearer your_taken",
+//     },
+//   });
+//   //   .then((res) => res.json());
+
+//   console.log(res.bodyUser);
+//   const data = await res.json();
+
+//   console.log(data);
+
+//   //   console.log(res.status);
+//   console.log(res.ok);
+// }
+// getData();
+
+/*  Урок 37 : Функціі - генератори    !!! ********/
+// function* myGenerator() {
+//   console.log("Start");
+//   yield 1;
+
+//   console.log("Start 2");
+//   yield 2;
+
+//   console.log("Start 3");
+//   yield 3;
+//   console.log("End");
+
+//   return 4;
+// }
+
+// const generator = myGenerator();
+// const result1 = generator.next();
+// console.log(result1);
+
+// const result2 = generator.next();
+// console.log(result2);
+
+// const result3 = generator.next();
+// console.log(result3);
+
+// const result4 = generator.next();
+// console.log(result4);
+
+// function* generatorFunction() {
+//   yield "1Value";
+//   yield "2Value";
+// }
+
+// const generator = generatorFunction();
+// for (let value of generator) {
+//   console.log(value);
+// }
+
+// Функція, яка симулює завантаження даних з сервера
+function fetchDataFromServer() {
+  return new Promise((resolve, reject) => {
+    // Симулюємо асинхронний запит до сервера
+    setTimeout(() => {
+      const randomNumber = Math.random();
+      if (randomNumber < 0.7) {
+        resolve("Дані успішно завантажені");
+      } else {
+        reject("Помилка завантаження даних");
+      }
+    }, 1000);
+  });
+}
+
+// // Функція для конвертації даних
+// function convertData(data) {
+//   return new Promise((resolve) => {
+//     // Симулюємо асинхронну конвертацію даних
+//     setTimeout(() => {
+//       const convertedData = data.toUpperCase();
+//       // Приклад конвертації
+//       resolve(convertedData);
+//     }, 500);
+//   });
+// }
+
+// Генераторний метод, що використовує "уіeld" для послідовного завантаження даних з сервера
+async function* fetchData() {
+  try {
+    yield "pending"; // Повертаємо статус "pending"
+    const result = await fetchDataFromServer(); // Завантажуємо дані з сервера
+    yield "success"; // Повертаємо статуc "success"
+    const convertedData = await convertedData(result); // Конвертуємо дані
+
+    return convertedData; // Повертаємо конвертовані дані
+  } catch (error) {
+    yield "error"; // Повертаємо статус "error"
+  }
+}
+(async () => {
+  const generator = fetchData();
+  console.log(await generator.next());
+  console.log(await generator.next());
+  console.log(await generator.next());
+})();
+
+// const asyncFunc = () => new Promise((resolve) => setTimeout(resolve, 1000));
+// async function* asyncGenerator() {
+//   await asyncFunc();
+//   yield "After 1sec";
+
+//   await asyncFunc();
+//   yield "After 2sec";
+// }
+// async function runGenerator() {
+//   const generator = asyncGenerator();
+//   for await (const result of generator) {
+//     console.log(result);
+//     await asyncFunc();
+//   }
+// }
+// runGenerator();
