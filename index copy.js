@@ -2409,37 +2409,71 @@ console.log("Четвертий");
 clearImmediate(immediateId);
 // clearTimeout(timeoutId);
 
+///.....////....////
+
 /*  Урок 35 : Управління асинхронними
 операціями..!!! ********/
-//  result.then ((data) => {
-//     console.log (data, 3);
-//     return null;
-//  });
-///.....////....////
+// result.then((data) => {
+//   console.log(data, 3);
+//   return null;
+// });
+//.....////....////
 
-// function loadFile(filename) {
-//   return new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       resolve(`Вміст файлу ${filename}`);
-//     }, 2000);
-//   });
-// }
-// function convertFile(content) {
-//   return new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       resolve(`Конвертований вміст: ${content.toUpperCase()}`);
-//     }, 1000);
-//   });
-// }
-// function saveFile(convertedContent) {
-//   return new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       resolve();
-//     }, 1500);
-//   });
-// }
+function loadFile(filename) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // console.log("2222");
+      resolve(`Вміст файлу ${filename}`);
+    }, 2000);
+  });
+}
+function convertFile(content) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(`Конвертований вміст: ${content.toUpperCase()}`);
+    }, 1000);
+  });
+}
+function saveFile(convertedContent) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // console.log("saveFile");
+      reject("Error test");
+    }, 1500);
+  });
+}
+function sendFileToClient() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // console.log("sendFileToClient");
+      reject("Error test 2");
+    }, 500);
+  });
+}
+function getInfofromFile(file) {
+  // console.log(file, 1111);
 
-///.....////....////
+  return Promise.resolve(file + 100);
+}
+// Promise.all([
+// const test = Promise.allSettled([
+// const test = Promise.any([
+const test = Promise.race([
+  loadFile("example.txt"),
+  getInfofromFile("example.txt"),
+  saveFile(),
+  sendFileToClient(),
+  convertFile("file"),
+])
+  .then((data) => {
+    console.log("Data", data);
+  })
+  .catch((error) => {
+    console.log("Error", error);
+  });
+// console.log(test);
+//.....////....////
+
 // loadFile("example.txt")
 //   .then((content) => {
 //     console.log("Файл завантажено успішно!");
@@ -2452,7 +2486,7 @@ clearImmediate(immediateId);
 //   .then((convertedContent) => {
 //     console.log("Файл успішно сконвертовано!");
 //     console.log("Конвертований вміст:", convertedContent);
-//     return savefile(convertedContent);
+//     return saveFile(convertedContent);
 //   })
 //   .then(() => {
 //     console.log("Файл успішно збережено!");
@@ -2464,6 +2498,7 @@ clearImmediate(immediateId);
 //   .finally(() => {
 //     console.log("Файл успішно відправлено клієнту!");
 //   });
+
 
 /*  Урок 36 : Робота з Promise та HTTP запити..!!! ********/
 // function loadFile() {
